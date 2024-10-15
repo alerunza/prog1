@@ -8,8 +8,8 @@ int main(void){
 
     for (int i = 0; i < k - 1 && k >= 2; i++){
         printf("%d\n", m);
-        int tmp = n;
+        int temp = n;
         n = m;
-        m = tmp + m;
+        m = temp + m;
     }
 }
