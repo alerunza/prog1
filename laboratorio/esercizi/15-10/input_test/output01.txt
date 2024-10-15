@@ -1,0 +1,2 @@
+Inserisci numeri interi, una volta finito inserisci 0
+Media: 6
