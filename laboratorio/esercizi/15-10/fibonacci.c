@@ -7,6 +7,9 @@ int main(void){
     scanf("%d", &k);
 
     for (int i = 0; i < k - 1 && k >= 2; i++){
+        if(i == 0){
+            printf("%d ", i);
+        }
         printf("%d\n", m);
         int temp = n;
         n = m;
