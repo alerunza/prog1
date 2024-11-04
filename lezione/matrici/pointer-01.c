@@ -4,7 +4,7 @@
 
 int main(void){
     int a[A_LEN] = {17, 9, 80};
-    int* pA = a;
+    //int* pA = a;
 
     /* int i = 0;
 
@@ -14,7 +14,13 @@ int main(void){
         pA++;
     } */
 
-    for (int i = 0; i < A_LEN; i++, pA++){
+    /* for (int i = 0; i < A_LEN; i++, pA++){
         printf("a[%d] = %d\n", i , *pA);
-    }
+    } */
+
+   // da fixare dato che salta lo 0
+/*     int* pLast = a + (A_LEN - 1);
+    for (int i = A_LEN - 1; i > 0; i--, pLast--){
+        printf("a[%d] vale %d\n", i , *pLast);
+    } */
 }

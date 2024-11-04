@@ -26,7 +26,7 @@ int main(void) {
    printHeader();
  
    // search for key in array a
-   int result = binarySearch(a, key, 0, SIZE-1); // datel da miglirare se è negativo il numero cercato
+   int result = binarySearch(a, key, 0, SIZE-1); // alla Deitel / da miglirare se è negativo il numero cercato
    //int result = binarySearch2(a, key, 0, SIZE-1); 
    //int result = binarySearch3(a, key, 0, SIZE); //SIZE!!!
  
