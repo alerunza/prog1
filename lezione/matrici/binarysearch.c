@@ -26,7 +26,7 @@ int main(void) {
    printHeader();
  
    // search for key in array a
-   int result = binarySearch(a, key, 0, SIZE-1);
+   int result = binarySearch(a, key, 0, SIZE-1); // datel da miglirare se è negativo il numero cercato
    //int result = binarySearch2(a, key, 0, SIZE-1); 
    //int result = binarySearch3(a, key, 0, SIZE); //SIZE!!!
  
@@ -55,7 +55,7 @@ int binarySearch(const int b[], int key, size_t low, size_t high) {
 		  return middle;
       }                                           
       else if (key < b[middle]) {//if key<b[middle]
-         high = middle - 1; // elimino la parte alta  <<<<Può essere negativo!!!!
+         high = middle - 1; // elimino la parte alta  <<<<Può essere negativo!!!! // segmentation fault [non va bene]
       }  
       else { // key > b[middle], so adjust low
          low = middle + 1; // elimino la parte bassa
