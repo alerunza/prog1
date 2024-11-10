@@ -25,25 +25,29 @@ int main(void) {
 bool is_vowel(char c) {
     char vocali[] = "AEIOUaeiou";
 
+    bool ret = false;
+
     for (int i = 0; i < strlen(vocali); i++) {
-        if (c == vocali[i]) {
-            return true;
+        if (c == vocali[i]){
+            ret = true;
         }
     }
 
-    return false;
+    return ret;
 }
 
 bool esistono_vocali(char str[]) {
     int lenStringa = strlen(str);
 
+    bool ret = false;
+
     for (int i = 0; i < lenStringa; i++) {
         if (is_vowel(str[i])) {
-            return true;
+            ret = true;
         }
     }
 
-    return false;
+    return ret;
 }
 
 void stampa_vocali(char str[]) {
