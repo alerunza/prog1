@@ -24,7 +24,7 @@ int main(void) {
 void printMatrix(int r, int c, int m[][c]){
     for (int i = 0; i < r; i++){
         for (int j = 0; j < c; j++){
-            printf("%d \t", m[i][j]);
+            printf("%3d ", m[i][j]);
         }
         puts("");
     }
