@@ -92,7 +92,9 @@ int main(void) {
 
 void stampa_sseq(const size_t left, const size_t right, const int a[])
 {
-    // COMPLETARE
+    for (size_t i = left; i < right; i++){
+        printf("%d ", a[i]);
+    }
 }
 
 //------------------------------------------------------------------
