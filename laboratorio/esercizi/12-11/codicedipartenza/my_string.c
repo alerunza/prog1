@@ -17,7 +17,7 @@ void my_concat(char* dstStart, const size_t strLen,
 // Scrivere una funzione my_equal che prende in ingresso due 
 // stringhe e restituisce true se sono identiche, carattere per carattere,
 // altrimenti restituisce false.
-??? my_equal(???, ???);
+bool my_equal(const char* str1, const char* str2);
 
 // copia nell’intervallo [dstStart, dstStart+strLen) i caratteri della
 // stringa str in modo tale che ogni carattere viene copiato N volte.
@@ -30,12 +30,13 @@ void n_uplica_lettere(char* dstStart, const size_t strLen,
                       const char* str, const size_t N);
 
 // restituisce la lunghezza della stringa str
-??? my_strlen(???);
+size_t my_strlen(const char* str);
 
 // restituisce true se la stringa str inizia con il prefisso prefix,
 // altrimenti false.
 // NB. La stringa vuota "" è prefisso di ogni stringa.
-bool startswith(???, ???);
+bool startswith(const char* str1, const char* str2);
+
 
 // restituisce true se la stringa str contiene la sottostringa sub,
 // false altrimenti.
@@ -47,7 +48,6 @@ bool startswith(???, ???);
 // NB. Consideriamo la prima occorrenza di sub in str.
 bool contains(const char* str, const char* sub, 
               size_t* left, size_t* right);
-
 
 //------------------------------------------------------------------
 
@@ -68,7 +68,6 @@ int main(void)
     printf("%-20s   [Atteso: Programma]\n", buffer2);
 
     my_concat(buffer1, 0, s1, s2); // non deve rompersi, ne copiare nulla
-
     puts("");
 
     printf("Testing my_equal()\n");
@@ -140,14 +139,55 @@ int main(void)
 void my_concat(char* dstStart, const size_t strLen,
                const char* str1, const char* str2)
 {
-    // COMPLETARE
+    size_t i = 0;
+
+    // copia i caratteri di str1 fino a quando c'è spazio o str1 finisce
+    for (; i < strLen && *str1 != '\0'; i++){
+        dstStart[i] = *str1++;
+    }
+
+    // copia i caratteri di str2 fino a quando c'è spazio o str2 finisce
+    for (; i < strLen && *str2 != '\0'; i++){
+        dstStart[i] = *str2++;
+    }
+
+    // aggiungi il terminatore se c'è spazio
+    if(i < strLen){
+        dstStart[i] = '\0';
+    } else if (strLen > 0){ // forza il terminatore alla fine se lo spazio è pieno
+        dstStart[i - 1] = '\0';
+    }
 }
 
-//------------------------------------------------------------------
 
-??? my_equal(???) 
+//------------------------------------------------------------------
+bool my_equal(const char* str1, const char* str2)
 {
-    // COMPLETARE
+
+    size_t str1Len = 0, str2Len = 0;
+
+    while (str1[str1Len] != '\0'){
+        str1Len++;
+    }
+
+    while (str2[str2Len] != '\0'){
+        str2Len++;
+    }
+
+    bool ret = true;
+
+    // se le lunghezze sono diverse, le stringhe non sono uguali
+    if (str1Len != str2Len) {
+        ret = false;
+    } else{
+        for (size_t i = 0; i < str1Len; i++){
+            if(str1[i] != str2[i]){
+                ret = false;
+            }
+        }
+    }
+
+    return ret;
 }
 
 //------------------------------------------------------------------
@@ -155,27 +195,104 @@ void my_concat(char* dstStart, const size_t strLen,
 void n_uplica_lettere(char* dstStart, const size_t strLen,
                       const char* str, const size_t N)
 {
-    // COMPLETARE
+
+    bool controllo = true;
+    size_t i = 0;
+
+    while(i < strLen && *str != '\0'){
+        for (size_t j = 0; j < N && controllo; j++){
+            if(i < strLen - 1){
+                dstStart[i++] = *str;
+            } else{
+                controllo = false;
+            }
+        }
+        str++;
+    }
+
+    // aggiungi terminatore se c'è spazio
+    if (i < strLen) {
+        dstStart[i] = '\0';
+    } else if (strLen > 0) {
+        dstStart[strLen - 1] = '\0';
+    }
 }
 
 //------------------------------------------------------------------
 
-??? my_strlen(???)
+size_t my_strlen(const char* str)
 {
-    // COMPLETARE
+
+    size_t strLen = 0;
+
+    while (str[strLen] != '\0'){
+        strLen++;
+    }
+
+    return strLen;
 }
 
 //------------------------------------------------------------------
 
-bool startswith(???, ???)
+bool startswith(const char* str1, const char* str2)
 {
-    // COMPLETARE
+    bool ret = true;
+
+    while (*str2 != '\0') { // finché non finisce la seconda stringa (str2)
+        if (*str1 != *str2) { // se i caratteri non sono uguali, non è un prefisso
+            ret = false;
+        }
+        str1++; // passa al carattere successivo
+        str2++;
+    }
+
+    return ret; // se tutti i caratteri di str2 sono stati trovati uguali in str1
 }
 
 //------------------------------------------------------------------
 
-bool contains(const char* str, const char* sub, 
-              size_t* left, size_t* right)
+bool contains(const char* str, const char* sub, size_t* left, size_t* right)
 {
-    // COMPLETARE
+    bool ret = false;
+
+    // se sub è vuota, la stringa vuota è contenuta in ogni stringa
+    if (*sub == '\0') {
+        *left = 0;
+        *right = 0;
+        ret = true;
+    } else {
+        size_t strLen = 0, subLen = 0;
+
+        while (str[strLen] != '\0') {
+            strLen++;
+        }
+
+        while (sub[subLen] != '\0') {
+            subLen++;
+        }
+
+        // cerca la prima occorrenza di sub in str
+        for (size_t i = 0; i <= strLen - subLen; i++) {
+            size_t j = 0;
+            while (j < subLen && str[i + j] == sub[j]) {
+                j++;
+            }
+
+            // se abbiamo trovato una corrispondenza completa
+            if (j == subLen) {
+                *left = i;
+                *right = i + subLen;
+                ret = true;
+                break;  // termina appena trova la prima occorrenza
+            }
+        }
+    }
+
+    // se non è stata trovata, left e right devono essere 0
+    if (!ret) {
+        *left = 0;
+        *right = 0;
+    }
+
+    return ret;
 }
