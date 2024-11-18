@@ -263,10 +263,12 @@ bool contains(const char* str, const char* sub, size_t* left, size_t* right)
     } else {
         size_t strLen = 0, subLen = 0;
 
+        // calcola la lunghezza di str
         while (str[strLen] != '\0') {
             strLen++;
         }
 
+        // calcola la lunghezza di sub
         while (sub[subLen] != '\0') {
             subLen++;
         }
@@ -283,7 +285,6 @@ bool contains(const char* str, const char* sub, size_t* left, size_t* right)
                 *left = i;
                 *right = i + subLen;
                 ret = true;
-                break;  // termina appena trova la prima occorrenza
             }
         }
     }
