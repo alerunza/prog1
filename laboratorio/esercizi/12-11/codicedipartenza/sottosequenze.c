@@ -66,7 +66,7 @@ int main(void) {
     incrementa_sseq(0, A1MAX, a1, 5);
     incrementa_sseq(2, A1MAX-2, a1, 100);
     stampa_sseq(0, A1MAX, a1);
-    puts("5 5 115 120 130 105 5 5    [atteso]\n");
+    puts("\n5 5 115 120 130 105 5 5    [atteso]\n");
 
     printf("%d  [atteso 1]\n", test_sseq(3, A1MAX-3, a1, 110));
     printf("%d  [atteso 0]\n", test_sseq(1, A1MAX-1, a1, 10));
@@ -77,15 +77,15 @@ int main(void) {
     size_t b1Len, b2Len;
     copia_dispari_sseq(1, A1MAX-1, a1, &b1Len, B1MAX, b1);
     stampa_sseq(0, b1Len, b1);
-    puts("5 115 105 5         [atteso]\n");
+    puts("\n5 115 105 5         [atteso]\n");
 
     copia_dispari_sseq(0, A1MAX, a1, &b1Len, B1MAX, b1);
     stampa_sseq(0, b1Len, b1);
-    puts("5 5 115 105 5 5     [atteso]\n");
+    puts("\n5 5 115 105 5 5     [atteso]\n");
 
     copia_dispari_sseq(0, A1MAX, a1, &b2Len, B2MAX, b2);
     stampa_sseq(0, b2Len, b1);
-    puts("5 5 115 105         [atteso]\n");
+    puts("\n5 5 115 105         [atteso]\n");
 }
 
 //------------------------------------------------------------------
@@ -101,7 +101,33 @@ void stampa_sseq(const size_t left, const size_t right, const int a[])
 
 void escludi_zeri_estremi(size_t* pLeft, size_t* pRight, const int a[])
 {
-    // COMPLETARE
+    // variabile sentinella per capire se ha trovato un elemento diverso da 0
+    bool sentinella = false;
+
+    // scorre l'array e si ferma al primo elemento diverso da 0
+    for (size_t i = *pLeft; i < *pRight; i++){
+        // se trova un elemento diverso da 0 allora salva la posizione
+        if(a[i] != 0 && !sentinella){
+            *pLeft = i;
+            sentinella = true;
+        }
+    }
+    
+    sentinella = false;
+
+    // scorre l'array al contrario e si ferma al primo elemento diverso da 0
+    for (size_t i = *pRight; i > *pLeft; i--){
+        // i - 1 così guarda indietro e trova l'ultimo numero non zero.
+        if(a[i - 1] != 0 && !sentinella){
+            *pRight = i;
+            sentinella = true;
+        }
+    }
+
+    // se non trova nessun elemento diverso da 0 allora l'intervallo è vuoto
+    if (!sentinella) {
+        *pLeft = *pRight;
+    }
 }
 
 //------------------------------------------------------------------
@@ -109,7 +135,9 @@ void escludi_zeri_estremi(size_t* pLeft, size_t* pRight, const int a[])
 void incrementa_sseq(const size_t left, const size_t right, 
                      int a[], const int k)
 {
-    // COMPLETARE
+    for (size_t i = left; i < right; i++){
+        a[i] += k;
+    }
 }
 
 //------------------------------------------------------------------
@@ -117,7 +145,17 @@ void incrementa_sseq(const size_t left, const size_t right,
 bool test_sseq(const size_t left, const size_t right, 
                const int a[], const int val)
 {
-    // COMPLETARE
+    bool ret = false;
+
+    for (size_t i = left; i < right; i++){
+        if(a[i] % 2 == 0 && a[i] > val){
+            ret = true;
+        } else {
+            ret = false;
+        }
+    }
+
+    return ret;
 }
 
 //------------------------------------------------------------------
@@ -125,7 +163,15 @@ bool test_sseq(const size_t left, const size_t right,
 void copia_dispari_sseq(const size_t left, const size_t right, const int a[], 
                         size_t* p_bLen, const size_t bCap, int b[])
 {
-    // COMPLETARE
+    size_t j = 0;
+    for (size_t i = left; i < right && j < bCap; i++){
+        if(a[i] % 2 != 0){
+            b[j] = a[i];
+            j++;
+        }
+    }
+
+    *p_bLen = j;
 }
 
 //------------------------------------------------------------------
