@@ -74,7 +74,6 @@ int main(void) {
                r, rags[r], somma_righe(mat, rags, r), rispSomma[r]);
     }
     puts("");
-
     // calcola i prodotti ed i minimi di ciascuna colonna
     const int rispProd[COLS] = { 0, 84, 432, 9, 2, 6, 9, 3, 1 };
     const int rispMin[COLS] = { 0, 1, 6, 1, 1, 6, 9, 3, INT_MAX };
@@ -90,6 +89,8 @@ int main(void) {
 
     // sostituisci gli elementi di tutte le righe che 
     // contengono un numero primo
+    /* stampa_matrice(mat, rags);
+    puts(""); */
     sostituisci_se_esiste_primo(mat, rags, 100);
     stampa_matrice(mat, rags);
 }
@@ -100,9 +101,9 @@ int main(void) {
 void stampa_matrice(const int mat[ROWS][COLS],
                     const size_t rags[ROWS])
 {
-    for (size_t r=0; r<ROWS; r++) {
+    for (size_t r = 0; r < ROWS; r++) {
         printf("[ ");
-        for (size_t c=0; c<rags[r]; c++) {
+        for (size_t c = 0; c < rags[r]; c++) {
             printf("%d ", mat[r][c]);
         }
         puts("]");
@@ -116,14 +117,11 @@ bool verifica_primalita(const int n) {
 
     if (n < 2) {
         primo = false;
-    }
-    else if (n == 2) {
+    } else if (n == 2) {
         primo = true;
-    } 
-    else if (n % 2 == 0) {
+    } else if (n % 2 == 0) {
         primo = false;
-    }
-    else {
+    } else {
         int i = 3;
         while (i <= sqrt(n) && primo) {
             if (n % i == 0) {
@@ -136,16 +134,76 @@ bool verifica_primalita(const int n) {
     return primo;
 }
 
-//------------------------------------------------------------------
+int somma_righe(const int mat[ROWS][COLS],
+                const size_t rags[ROWS],
+                const size_t r){
 
-// COMPLETARE
+    int somma = 0;
 
-//------------------------------------------------------------------
+    for (size_t c = 0; c < rags[r]; c++) {
+        somma += mat[r][c];
+    }
 
+    return somma;
+}
 
+size_t conta_elem_colonna(const int mat[ROWS][COLS],
+                          const size_t rags[ROWS],
+                          const size_t c){
 
+    size_t elem = 0;
 
+    for (size_t i = 0; i < ROWS; i++) {
+        if (c < rags[i]) {
+            elem++;
+        }
+    }
 
+    return elem;
+}
 
+int prod_colonna(const int mat[ROWS][COLS],
+                 const size_t rags[ROWS],
+                 const size_t c){
 
+    int prod = 1;
 
+    for (size_t i = 0; i < ROWS; i++){
+        if(c < rags[i]){
+            prod *= mat[i][c];
+        }
+    }
+
+    return prod;
+}
+
+int min_colonna(const int mat[ROWS][COLS],
+                const size_t rags[ROWS],
+                const size_t c) {
+    int min = INT_MAX;
+
+    for (size_t i = 0; i < ROWS; i++) {
+        if (c < rags[i]) {
+            if (mat[i][c] < min) {
+                min = mat[i][c];
+            }
+        }
+    }
+
+    return min;
+}
+
+void sostituisci_se_esiste_primo(int mat[ROWS][COLS],
+                                 const size_t rags[ROWS],
+                                 const int val){
+
+    for (size_t i = 0; i < ROWS; i++) {
+        if(i < rags[i]){
+            if(verifica_primalita(mat[i][i])){
+                for (size_t j = 0; j < rags[i]; j++) {
+                    mat[i][j] = val;
+                }
+            }
+        } 
+    }                            
+}
