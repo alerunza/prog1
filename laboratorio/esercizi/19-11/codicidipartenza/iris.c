@@ -90,9 +90,42 @@ int main(void) {
     }
 }
 
-//------------------------------------------------------------------
+float media_riga(const float mat[ROWS][COLS], const size_t rags[ROWS], const size_t r){
 
-// COMPLETARE
+    float media = 0;
 
-//------------------------------------------------------------------
+    for (size_t j = 0; j < rags[r]; j++){
+        media += mat[r][j] / rags[r];
+    }
 
+    return media;
+}
+
+void minmax_riga(const float mat[ROWS][COLS], const size_t rags[ROWS], const size_t r, float *pMin, float* pMax){
+
+    *pMin = mat[r][0];
+    *pMax = mat[r][0];
+
+    for (size_t j = 0; j < rags[r]; j++){
+        if(mat[r][j] < *pMin){
+            *pMin = mat[r][j];
+        }
+        if(mat[r][j] > *pMax){
+            *pMax = mat[r][j];
+        }
+    }
+}
+
+void filtra_riga_minmax(float mat[ROWS][COLS], size_t rags[ROWS], const size_t r, float min, float max){
+    size_t j = 0;
+
+    for (size_t i = 0; i < rags[r]; i++){
+        if(mat[r][i] > min && mat[r][i] < max){
+            mat[r][j] = mat[r][i];
+            j++;
+        }
+    }
+
+    // nuovi campioni (valori)
+    rags[r] = j;
+}
