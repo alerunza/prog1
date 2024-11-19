@@ -195,15 +195,24 @@ bool elem_div_riga(const int pRiga[COLS], const size_t j)
 // Ritorna true se la matrice in ingresso e' divisiva.
 bool elem_div_mat(const int mat[ROWS][COLS])
 {
-    bool tuttiDivisivo = true;
 
-    for(size_t i = 0; i < ROWS && tuttiDivisivo; i++){
-        if(!elem_div_riga(mat[i], i)){
-            tuttiDivisivo = false;
+    bool matriceDivisiva = true;
+
+    for(size_t i = 0; i < ROWS; i++){
+        bool rigaDivisiva = false;
+
+        for (size_t j = 0; j < COLS; j++){
+            if (elem_div_riga(mat[i], j)){
+                rigaDivisiva = true;
+            }
+        }
+
+        if(!rigaDivisiva){
+            matriceDivisiva = false;
         }
     }
 
-    return tuttiDivisivo;
+    return matriceDivisiva;
 }
 
 //------------------------------------------------------------------
