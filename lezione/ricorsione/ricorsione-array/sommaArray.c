@@ -53,16 +53,21 @@ int contaPariArray(int arLen, int ar[]){
 }
 
 int contaPariArrayRic(int arLen, int ar[], int left, int right){
-    if((left + 1) == right){
-        if(ar[left] % 2 != 0){
-            return 0;
+    if(left != right){
+        if((left + 1) == right){
+            if(ar[left] % 2 != 0){
+                return 0;
+            } else{
+                return 1;
+            }
         } else{
-            return 1;
+            int middle = (left + right) / 2;
+
+            printf("DEBUG: Chiamata Ric. left: %d, right: %d, middle: %d\n", left, right, middle);
+            return contaPariArrayRic(arLen, ar, left, middle) + contaPariArrayRic(arLen, ar, middle, right);
         }
     } else{
-        int middle = (left + right) / 2;
-
-        printf("DEBUG: Chiamata Ric. left: %d, right: %d, middle: %d\n", left, right, middle);
-        return contaPariArrayRic(arLen, ar, left, middle) + contaPariArrayRic(arLen, ar, middle, right);
+        // array vuoto
+        return 0;
     }
 }
