@@ -24,8 +24,9 @@ int main(void){
 int minArray(int arLen, int ar[]){
     if(arLen > 0){
         return minArrayRic(arLen, ar, 0, arLen);
+    } else{
+        return 0;
     }
-    return 0;
 }
 
 // dicotomica left to right 
