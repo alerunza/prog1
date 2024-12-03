@@ -71,6 +71,7 @@ void stampa_rev_strR(const char* pStr){
 
 // funziona ricorsiva che confronta due stringhe, un carattere alla volta,
 // e ritorna true se le due stringhe sono uguali e della stessa lunghezza
+// IMPORTANTE IN PROG 2!!!!
 bool str_ugualiR(const char* pStrA, const char* pStrB){
     if(*pStrA == '\0' || *pStrB == '\0'){
         if(*pStrA == '\0' && *pStrB == '\0'){
