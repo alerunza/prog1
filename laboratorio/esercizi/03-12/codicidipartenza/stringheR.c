@@ -44,7 +44,7 @@ void filtra_carattereR(const char* pSrc, char* pDest, char ch);
 //    sia pDest = capovolgi_strR(pStr+1, pStrInizio)
 //    poi scrivi ch in *pDest e ritorna pDest+1
 void capovolgi_str(char* pStr);
-char* capovolgi_strR(const char* pStr, char* pStrInizio);
+char *capovolgi_strR(const char *pStr, char *pStrInizio, char *pDest);
 
 //------------------------------------------------------------------
 
@@ -130,7 +130,6 @@ int main(void) {
 	filtra_carattere(s3, '*');
 	printf("[%s] %s\n\n", (0==strcmp(s3,f3) ? "ok" : "NO"), s3);
 
-	/*
 	// ESERCIZIO EXTRA - funzione capovolgi_str
 	// Unit test per la funzione capovolgi_str
 	puts("\nCapovolgi stringa:");
@@ -144,12 +143,115 @@ int main(void) {
 	capovolgi_str(s5);
 	printf("[%s] %s\n\n", 
 		   (0==strcmp(s5,"acetone'llen otecA") ? "ok" : "NO"), s5);
-	*/
 }
 
-//------------------------------------------------------------------
 
-// COMPLETARE
+// ritorna true se il carattere ch esiste nella stringa pStr.
+bool trova_carattereR(const char* pStr, char ch){
+	if(*pStr == '\0'){
+		return false;
+	} else{
+		if(*pStr == ch){
+			return true;
+		} else{
+			return false || trova_carattereR(pStr + 1, ch);
+		}
+	}
+}
 
-//------------------------------------------------------------------
+// ritorna il numero di occorrenze del carattere ch nella stringa pStr
+int conta_caratteriR(const char* pStr, char ch){
+	if(*pStr == '\0'){
+		return 0;
+	} else{
+		if(*pStr == ch){
+			return 1 + conta_caratteriR(pStr + 1, ch);
+		} else{
+			return conta_caratteriR(pStr + 1, ch);
+		}
+	}
+}
 
+// ritorna true se tutti i caratteri della stringa 
+// sono lettere maiuscole
+bool tutte_maiuscoleR(const char* pStr){
+	if(*pStr == '\0'){
+		return true;
+	} else{
+		if(isupper(*pStr)){
+			return true && tutte_maiuscoleR(pStr + 1);
+		} else{
+			return false;
+		}
+	}
+}
+
+// prende in input una stringa pStr e modifica in-place
+// i caratteri seguendo queste regole:
+// - ogni lettera maiuscola viene sostituita con il carattere ‘$’
+// - ogni lettera minuscola viene sostituita con il carattere ‘*’
+// - tutti gli altri caratteri sono sostituiti con il carattere ‘-’
+void converti_caratteriR(char* pStr){
+	if(*pStr == '\0'){
+		return;
+	} else{
+		if(isupper(*pStr)){
+			*pStr = '$';
+		} else if(islower(*pStr)){
+			*pStr = '*';
+		} else{
+			*pStr = '-';
+		}
+		converti_caratteriR(pStr + 1);
+	}
+}
+
+// elimina in-place tutte le occorrenze del carattere ch
+// dalla stringa in input
+// SUGGERIMENTO: usare il metodo wrapper fornito.
+void filtra_carattere(char* pStr, char ch){
+	filtra_carattereR(pStr, pStr, ch);
+}
+
+void filtra_carattereR(const char* pSrc, char* pDest, char ch){
+	if(*pSrc == '\0'){
+		*pDest = '\0';
+		return;
+	} else{
+		if(*pSrc != ch){
+			*pDest = *pSrc;
+			filtra_carattereR(pSrc + 1, pDest + 1, ch);
+		}else{
+			filtra_carattereR(pSrc + 1, pDest, ch);
+		}
+	}
+}
+
+// ESERCIZIO EXTRA
+// capovolgi in-place la stringa pStr. 
+// Es: capovolgi("ciao") produce "oaic"
+// SUGGERIMENTO: il metodo deve ritornare il puntatore alla posizione
+// dentro al quale si deve scrivere il carattere "capovolto".
+// Il caso baso ritorna il puntatore iniziale (passato come argomento 
+// e mai modificato), ed ogni passo di induzione deve ritornare il 
+// puntatore opportunamente incrementato.
+//  caso base: capovolgi_strR(*pStr=='\0', pStrInizio) ritorna pStrInizio
+//  passo induttivo:
+//    memorizzo ch = *pSrc  (DOMANDA: perche' devo farlo?)
+//    sia pDest = capovolgi_strR(pStr+1, pStrInizio)
+//    poi scrivi ch in *pDest e ritorna pDest+1
+void capovolgi_str(char* pStr){
+	capovolgi_strR(pStr, pStr, pStr);
+}
+
+char* capovolgi_strR(const char* pStr, char* pStrInizio, char* pDest){
+	char ch;
+	if (*pStr == '\0'){
+		return pStrInizio;
+	} else{
+		ch = *pStr;
+		capovolgi_strR(pStr + 1, pStrInizio, pDest);
+		*pDest = ch;
+		pDest += 1;
+	}
+}
