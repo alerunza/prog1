@@ -44,7 +44,7 @@ void filtra_carattereR(const char* pSrc, char* pDest, char ch);
 //    sia pDest = capovolgi_strR(pStr+1, pStrInizio)
 //    poi scrivi ch in *pDest e ritorna pDest+1
 void capovolgi_str(char* pStr);
-char *capovolgi_strR(const char *pStr, char *pStrInizio, char *pDest);
+char *capovolgi_strR(const char *pStr, char *pStrInizio);
 
 //------------------------------------------------------------------
 
@@ -221,7 +221,7 @@ void filtra_carattereR(const char* pSrc, char* pDest, char ch){
 		if(*pSrc != ch){
 			*pDest = *pSrc;
 			filtra_carattereR(pSrc + 1, pDest + 1, ch);
-		}else{
+		} else{
 			filtra_carattereR(pSrc + 1, pDest, ch);
 		}
 	}
@@ -241,17 +241,19 @@ void filtra_carattereR(const char* pSrc, char* pDest, char ch){
 //    sia pDest = capovolgi_strR(pStr+1, pStrInizio)
 //    poi scrivi ch in *pDest e ritorna pDest+1
 void capovolgi_str(char* pStr){
-	capovolgi_strR(pStr, pStr, pStr);
+	capovolgi_strR(pStr, pStr);
 }
 
-char* capovolgi_strR(const char* pStr, char* pStrInizio, char* pDest){
+char* capovolgi_strR(const char* pStr, char* pStrInizio){
 	char ch;
+
 	if (*pStr == '\0'){
 		return pStrInizio;
 	} else{
 		ch = *pStr;
-		capovolgi_strR(pStr + 1, pStrInizio, pDest);
+		char* pDest = capovolgi_strR(pStr + 1, pStrInizio);
 		*pDest = ch;
-		pDest += 1;
+		
+		return pDest + 1;
 	}
 }
