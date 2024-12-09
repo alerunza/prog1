@@ -17,7 +17,6 @@ void stampa_arrayR(const size_t aLen, const int a[], const size_t i);
 // La stampa deve terminare con un ritorno a capo.
 void stampa_rev_array(const size_t aLen, const int a[]);
 void stampa_rev_arrayR(const size_t aLen, const int a[], const size_t i);
-
 // funziona ricorsiva che confronta due array di interi, un elemento
 // alla volta, e ritorna true se i due array sono uguali e della 
 // stessa lunghezza.
@@ -31,7 +30,6 @@ bool array_ugualiR(const size_t aLen, const int a[],
 bool esiste_multiplo(const size_t aLen, const int a[], const int val);
 bool esiste_multiploR(const size_t aLen, const int a[], 
                       const int val, const size_t i);
-
 //------------------------------------------------------------------
 
 int main(void)
@@ -56,7 +54,6 @@ int main(void)
         stampa_rev_array(rags[r], mat[r]);
         puts("-----");
     }
-
     // Unit test per la comparazione degli array
     puts("\nUguaglianza tra array:");
     const bool res_cmp[ROWS] = { true, false, false, false };
@@ -75,7 +72,6 @@ int main(void)
         printf("[%s] esiste multiplo di %d in mat[%zu]? %d\n",
                (esiste==res_mul5[r] ? "ok" : "NO"), val, r, esiste);
     }
-
 }
 
 //------------------------------------------------------------------
@@ -85,12 +81,71 @@ void stampa_array(const size_t aLen, const int a[]) { // involucro
     // ricorsione (contro-variante) i con il valore 0
     stampa_arrayR(aLen, a, 0);
 }
+
 void stampa_arrayR(const size_t aLen, const int a[], const size_t i) {
-    // completare
+    if(i == aLen){
+        printf("\n");
+        return;
+    } else{
+        printf("%d ", a[i]);
+        stampa_arrayR(aLen, a, i + 1);
+    }
 }
 
-//------------------------------------------------------------------
+void stampa_rev_array(const size_t aLen, const int a[]) {
+    stampa_rev_arrayR(aLen, a, aLen);
+}
 
-// COMPLETARE
+void stampa_rev_arrayR(const size_t aLen, const int a[], const size_t i) {
+    if(i == 0){
+        printf("\n");
+        return;
+    } else{
+        printf("%d ", a[i - 1]);
+        stampa_rev_arrayR(aLen, a, i - 1);
+    }
+}
 
-//------------------------------------------------------------------
+// funziona ricorsiva che confronta due array di interi, un elemento
+// alla volta, e ritorna true se i due array sono uguali e della 
+// stessa lunghezza.
+bool array_uguali(const size_t aLen, const int a[],
+                  const size_t bLen, const int b[]){
+    return array_ugualiR(aLen, a, bLen, b, 0);
+}
+
+bool array_ugualiR(const size_t aLen, const int a[],
+                   const size_t bLen, const int b[], const size_t i){
+    
+    if(aLen == i){
+        return true;
+    }
+    if(aLen != bLen){
+        return false;
+    } else{
+        if(a[i] != b[i]){
+            return false;
+        } else{
+            return array_ugualiR(aLen, a, bLen, b, i + 1);
+        }
+    }
+}
+
+// ritorna true se esiste un multiplo dell'elemento val nell'array a[],
+// false altrimenti
+bool esiste_multiplo(const size_t aLen, const int a[], const int val){
+    return esiste_multiploR(aLen, a, val, 0);
+}
+bool esiste_multiploR(const size_t aLen, const int a[], 
+                      const int val, const size_t i){
+
+    if(aLen == i){
+        return false;
+    } else{
+        if(a[i] % val == 0){
+            return true;
+        } else{
+            return esiste_multiploR(aLen, a, val, i + 1);
+        }
+    }
+}
