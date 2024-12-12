@@ -8,18 +8,23 @@
 
 // capovolgi gli elementi dell'array a[]
 void capovolgi_array(const size_t aLen, int a[]);
+void capovolgi_arrayR(const size_t aLen, int a[], int i);
 
 // ritorna true se tutti gli elementi dell'array sono pari
 bool tutti_pari(const size_t aLen, const int a[]);
+bool tutti_pariR(const size_t aLen, const int a[], size_t i);
 
 // ritorna la somma di tutti gli elementi dispari dell'array
 // ritorna 0 se non ci sono elementi
 int somma_elem_dispari(const size_t aLen, const int a[]);
+int somma_elem_dispariR(const size_t aLen, const int a[], size_t i);
 
 // ritorna l'indice dell'elemento più grande dell'array
 // se l'array è vuoto, ritornare -1.
 size_t indice_elem_massimo(const size_t aLen, const int a[]);
+size_t indice_elem_massimoR(const size_t aLen, const int a[], int i);
 
+/*
 // raddoppia il valore di tutti gli elementi dell'array a[]
 void raddoppia_elem(const size_t aLen, int a[]);
 
@@ -40,6 +45,7 @@ void copia_maggiori_di(const size_t aLen, const int a[],
 void filtro_intervallo(size_t* p_aLen, int a[], 
                        const int min, const int max);
 
+*/
 //------------------------------------------------------------------
 
 void stampa_array(const size_t aLen, int a[]) {
@@ -75,7 +81,6 @@ int main(void) {
     printf("somma_elem_dispari(a1) = %3d [atteso:  16]\n", somma_elem_dispari(A1_LEN, a1));
     printf("somma_elem_dispari(a2) = %3d [atteso:   0]\n", somma_elem_dispari(A2_LEN, a2));
     printf("somma_elem_dispari(a3) = %3d [atteso: 420]\n", somma_elem_dispari(A3_LEN, a3));
-
     #define MARI_LEN  10
     const char* nomi_mari[MARI_LEN] = {
         "Oceano Atlantico", "Golfo del Messico", "Mar Mediterraneo", 
@@ -97,6 +102,7 @@ int main(void) {
     printf("Maggior profondita' media: '%s' con %d metri.\n",
            nomi_mari[i_max], profondita_media[i_max]);
 
+    /*
     puts("\nUnit test per raddoppio elementi:");
     raddoppia_elem(A2_LEN, a2);
     stampa_array(A2_LEN, a2);
@@ -120,10 +126,76 @@ int main(void) {
     filtro_intervallo(&a3Len, a3, 10, 71);
     stampa_array(a3Len, a3);
     printf("61 39 10 70 35 49 71  [atteso]\n");
+    */
 }
 
-//------------------------------------------------------------------
+// capovolgi gli elementi dell'array a[]
+void capovolgi_array(const size_t aLen, int a[]){
+    capovolgi_arrayR(aLen, a, aLen - 1);
+}
 
-// COMPLETARE
+void capovolgi_arrayR(const size_t aLen, int a[], int i){
+    if(i < 0){
+        return;
+    } else{
+        printf("%d ", a[i]);
+        capovolgi_arrayR(aLen, a, i - 1);
+    }
+}
 
-//------------------------------------------------------------------
+// ritorna true se tutti gli elementi dell'array sono pari
+bool tutti_pari(const size_t aLen, const int a[]){
+    return tutti_pariR(aLen, a, 0);
+}
+
+bool tutti_pariR(const size_t aLen, const int a[], size_t i){
+    if(i == aLen){
+        return true;
+    } else{
+        if(a[i] % 2 != 0){
+            return false;
+        } else{
+            return tutti_pariR(aLen, a, i + 1);
+        }
+    }
+}
+
+// ritorna la somma di tutti gli elementi dispari dell'array
+// ritorna 0 se non ci sono elementi
+int somma_elem_dispari(const size_t aLen, const int a[]){
+    return somma_elem_dispariR(aLen, a, 0);
+}
+
+int somma_elem_dispariR(const size_t aLen, const int a[], size_t i){
+    if(i == aLen){
+        return 0;
+    } else{
+        if(a[i] % 2 != 0){
+            return a[i] + somma_elem_dispariR(aLen, a, i + 1);
+        } else{
+            return somma_elem_dispariR(aLen, a, i + 1);
+        }
+    }
+}
+
+// ritorna l'indice dell'elemento più grande dell'array
+// se l'array è vuoto, ritornare -1.
+size_t indice_elem_massimo(const size_t aLen, const int a[]){
+    if(aLen == 0){
+        return -1;
+    } else{
+        return indice_elem_massimoR(aLen, a, 0);
+    }
+}
+
+size_t indice_elem_massimoR(const size_t aLen, const int a[], int i){
+    if(i == aLen - 1){ //ultimo elemento (caso base)
+        return i;
+    } else{
+        if (a[i] > a[indice_elem_massimoR(aLen, a, i + 1)]){
+            return i;
+        } else{
+            return indice_elem_massimoR(aLen, a, i + 1);
+        }
+    }
+}
