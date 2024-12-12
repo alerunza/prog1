@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <assert.h>
+#include <stdbool.h>
 
 //------------------------------------------------------------------
 // Prototipi delle funzioni
@@ -24,10 +24,11 @@ int somma_elem_dispariR(const size_t aLen, const int a[], size_t i);
 size_t indice_elem_massimo(const size_t aLen, const int a[]);
 size_t indice_elem_massimoR(const size_t aLen, const int a[], int i);
 
-/*
 // raddoppia il valore di tutti gli elementi dell'array a[]
 void raddoppia_elem(const size_t aLen, int a[]);
+void raddoppia_elemR(const size_t aLen, int a[], int i);
 
+/*
 // copia in b[] tutti gli elementi di a[] che sono uguali o maggiori di val
 // fino alla capacita' massima bCap di b[].
 // Al ritorno, il valore puntato da p_bLen viene aggiornato per riflettere
@@ -102,12 +103,12 @@ int main(void) {
     printf("Maggior profondita' media: '%s' con %d metri.\n",
            nomi_mari[i_max], profondita_media[i_max]);
 
-    /*
     puts("\nUnit test per raddoppio elementi:");
     raddoppia_elem(A2_LEN, a2);
     stampa_array(A2_LEN, a2);
     printf("32 16 48 44 12  [atteso]\n");
 
+    /*
     puts("\nUnit test per copia elementi:");
     #define BUF1_LEN 10
     int buf1[BUF1_LEN];
@@ -197,5 +198,19 @@ size_t indice_elem_massimoR(const size_t aLen, const int a[], int i){
         } else{
             return indice_elem_massimoR(aLen, a, i + 1);
         }
+    }
+}
+
+// raddoppia il valore di tutti gli elementi dell'array a[]
+void raddoppia_elem(const size_t aLen, int a[]){
+    raddoppia_elemR(aLen, a, 0);
+}
+
+void raddoppia_elemR(const size_t aLen, int a[], int i){
+    if(i == aLen){
+        return;
+    } else{
+        a[i] *= 2;
+        raddoppia_elemR(aLen, a, i + 1);
     }
 }
