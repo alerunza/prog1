@@ -75,7 +75,7 @@ int main(void) {
                (m1==min_res[r] && m2==m1 && m3==m1 ? "ok" : "NO"), r, m1, m2, m3);
     }
     puts("");
-
+    /*
     // Unit test per il raddoppio dei dispari
     int mat_doppi[ROWS][COLS] = {
         {16,20,30},
@@ -133,6 +133,7 @@ int main(void) {
                (c1==cm_res[r] && c2==c1 && c3==c1 ? "ok" : "NO"), r, c1, c2, c3);
     }
     puts("");
+    */
 }
 
 //------------------------------------------------------------------
@@ -146,6 +147,7 @@ int ritorna_minimo_covR(const int a[],
 int ritorna_minimo_dicR(const int a[],
                         const size_t left, const size_t right);
 
+/*
 void raddoppia_dispari_conR(int a[],
                             const size_t left, const size_t right);
 void raddoppia_dispari_covR(int a[],
@@ -166,7 +168,7 @@ size_t conta_multipli_covR(const int a[], const int val,
                            const size_t left, const size_t right);
 size_t conta_multipli_dicR(const int a[], const int val,
                            const size_t left, const size_t right);
-
+*/
 //------------------------------------------------------------------
 
 int min(int a, int b) {
@@ -175,4 +177,59 @@ int min(int a, int b) {
 
 //------------------------------------------------------------------
 
-// DA COMPLETARE
+// Restituisce il valore minimo nell'array a[] attraverso una ricerca 
+// lineare. Se l'array è vuoto, restituisce INT_MAX
+// Usa la ricorsione controvariante (crescente):
+int ritorna_minimo_con(const size_t aLen, const int a[]){ // involucro
+    if(aLen == 0){
+        return INT_MAX;
+    } else{
+        return ritorna_minimo_conR(a, 0, aLen);
+    }
+}
+
+int ritorna_minimo_conR(const int a[], const size_t left, const size_t right){
+    if(left >= right){
+        return INT_MAX;
+    } else{
+        return min(a[left], ritorna_minimo_conR(a, left + 1, right));
+    }
+}
+
+// Usa la ricorsione covariante (decrescente):
+int ritorna_minimo_cov(const size_t aLen, const int a[]){ // involucro
+    if(aLen == 0){
+        return INT_MAX;
+    } else{
+        return ritorna_minimo_covR(a, 0, aLen - 1);
+    }
+}
+
+int ritorna_minimo_covR(const int a[], const size_t left, const size_t right){
+    if(left >= right){
+        return a[0]; // 0 perchè left == 0,
+    } else{
+        return min(a[right], ritorna_minimo_covR(a, left, right - 1));
+    }
+}
+
+// Usa la ricorsione dicotomica (dimezzamento intervalli):
+int ritorna_minimo_dic(const size_t aLen, const int a[]){ // involucro
+    if(aLen == 0){
+        return INT_MAX;
+    } else{
+        return ritorna_minimo_dicR(a, 0, aLen - 1);
+    }
+}
+
+int ritorna_minimo_dicR(const int a[], const size_t left, const size_t right){
+    if(left >= right){
+        return a[right];
+    }/*  else if((right - left) == 1){
+        return a[left];
+    } */ else{
+        int middle = left + (right - left) / 2;
+
+        return min(ritorna_minimo_dicR(a, left, middle), ritorna_minimo_dicR(a, middle + 1, right));
+    }
+}
